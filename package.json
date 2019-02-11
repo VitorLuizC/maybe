@@ -14,10 +14,17 @@
     "maybe",
     "maybe-type",
     "maybe-monad",
+    "optional",
+    "optional-type",
+    "optional-typing",
     "functional-programming",
+    "functional",
     "fp",
+    "type-safety",
+    "type-safe",
     "typescript",
-    "type-safety"
+    "bili",
+    "ava"
   ],
   "author": {
     "url": "https://vitorluizc.github.io/",
