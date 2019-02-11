@@ -1,0 +1,32 @@
+{
+  "name": "@vitorluizc/maybe",
+  "version": "0.0.0",
+  "description": "🌯 The prettiest TypeScript implementation of Maybe monad.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitorLuizC/maybe.git"
+  },
+  "keywords": [
+    "maybe",
+    "maybe-type",
+    "maybe-monad",
+    "functional-programming",
+    "fp",
+    "typescript",
+    "type-safety"
+  ],
+  "author": {
+    "url": "https://vitorluizc.github.io/",
+    "name": "Vitor Luiz Cavalcanti",
+    "email": "vitorluizc@outlook.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VitorLuizC/maybe/issues"
+  },
+  "homepage": "https://github.com/VitorLuizC/maybe#readme"
+}
