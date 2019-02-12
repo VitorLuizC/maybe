@@ -9,9 +9,11 @@
   "module": "dist/maybe.mjs",
   "jsdelivr": "dist/maybe.umd.js",
   "umd:main": "dist/maybe.umd.js",
+  "files": ["dist/"],
   "scripts": {
     "test": "ava",
-    "build": "bili"
+    "build": "bili",
+    "prepublish": "yarn build && yarn test"
   },
   "repository": {
     "type": "git",
