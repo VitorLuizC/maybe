@@ -1,7 +1,9 @@
-type Maybe <T> = void | T;
+type Nothing = void | null | undefined;
+
+type Maybe <T> = Nothing | T;
 
 const Maybe = {
-  isNone <T> (value: Maybe<T>): value is void {
+  isNone <T> (value: Maybe<T>): value is Nothing {
     return value === null || value === undefined;
   },
 
@@ -9,5 +11,7 @@ const Maybe = {
     return Maybe.isNone(value) ? void value : fn(value);
   },
 };
+
+export { Nothing };
 
 export default Maybe;
