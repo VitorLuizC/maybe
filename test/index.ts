@@ -4,7 +4,6 @@ import Maybe from '../';
 test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
   let value: Maybe<number>;
 
-  // @ts-ignore
   context.is(value, undefined);
 
   value = null;
@@ -13,7 +12,7 @@ test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
 
   value = 10;
 
-  context.is(value, null);
+  context.is(value, 10);
 });
 
 test('Maybe enforce type safely flows', (context) => {
@@ -21,7 +20,7 @@ test('Maybe enforce type safely flows', (context) => {
 
   const names = Maybe.isNone(name) ? [] : name.replace(/\s+/, ' ').split(' ');
 
-  context.is(names, ['Naruto', 'Uzumaki']);
+  context.deepEqual(names, ['Naruto', 'Uzumaki']);
 });
 
 test('Maybe.isNone check if value is none', (context) => {
