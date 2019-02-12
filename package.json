@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava",
     "build": "tsc"
   },
   "repository": {
@@ -39,6 +39,13 @@
   },
   "homepage": "https://github.com/VitorLuizC/maybe#readme",
   "devDependencies": {
+    "ava": "^1.2.1",
+    "ts-node": "^8.0.2",
     "typescript": "^3.3.3"
+  },
+  "ava": {
+    "require": ["ts-node/register"],
+    "extensions": ["ts"],
+    "compileEnhancements": false
   }
 }
