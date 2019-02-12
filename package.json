@@ -2,11 +2,16 @@
   "name": "@vitorluizc/maybe",
   "version": "0.0.0",
   "description": "🌯 The prettiest TypeScript implementation of Maybe monad.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "cdn": "dist/maybe.umd.js",
+  "types": "dist/maybe.d.ts",
+  "main": "dist/maybe.js",
+  "unpkg": "dist/maybe.umd.js",
+  "module": "dist/maybe.mjs",
+  "jsdelivr": "dist/maybe.umd.js",
+  "umd:main": "dist/maybe.umd.js",
   "scripts": {
     "test": "ava",
-    "build": "tsc"
+    "build": "bili"
   },
   "repository": {
     "type": "git",
@@ -40,6 +45,8 @@
   "homepage": "https://github.com/VitorLuizC/maybe#readme",
   "devDependencies": {
     "ava": "^1.2.1",
+    "bili": "^4.2.5",
+    "rollup-plugin-typescript2": "^0.19.2",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3"
   },
@@ -47,5 +54,18 @@
     "require": ["ts-node/register"],
     "extensions": ["ts"],
     "compileEnhancements": false
+  },
+  "bili": {
+    "input": "src/maybe.ts",
+    "output": {
+      "format": ["es", "cjs", "umd", "umd-min"],
+      "moduleName": "maybe"
+    },
+    "plugins": {
+      "typescript2": {
+        "clean": true,
+        "useTsconfigDeclarationDir": true
+      }
+    }
   }
 }
