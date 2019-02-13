@@ -61,7 +61,7 @@
     "input": "src/maybe.ts",
     "output": {
       "format": ["es", "cjs", "umd", "umd-min"],
-      "moduleName": "maybe"
+      "moduleName": "Maybe"
     },
     "plugins": {
       "typescript2": {
