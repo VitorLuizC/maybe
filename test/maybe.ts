@@ -64,3 +64,23 @@ test('Maybe.map returns a Maybe typed value', (context) => {
 
   context.is(key, 'id-00000096');
 });
+
+// ..:: Maybe.then tests ::..
+
+test('Maybe.then runs fn if value is some', (context) => {
+  const size = Maybe<number>(undefined);
+
+  let fnWasCalledForSize = false;
+
+  size.then(() => fnWasCalledForSize = true);
+
+  context.false(fnWasCalledForSize);
+
+  const font = Maybe<string>('Operator Mono');
+
+  let fnWasCalledForFont = false;
+
+  font.then(() => fnWasCalledForFont = true);
+
+  context.true(fnWasCalledForFont);
+});

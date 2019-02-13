@@ -3,23 +3,31 @@ type None = void | null | undefined;
 type Maybe <T> = {
   _isMaybe: true;
 
+  get(placeholder: T): T;
+
   map<U>(fn: (value: T) => U | Maybe<U>): Maybe<U>;
 
-  get(placeholder: T): T;
+  then(fn: (value: T) => void): void;
 };
 
 const Maybe = <T>(value: T | None): Maybe<T> => ({
   _isMaybe: true,
 
+  get(placeholder) {
+    return Maybe.isNone(value) ? placeholder : value;
+  },
+
   map(fn) {
     if (Maybe.isNone(value))
       return Maybe();
-    const mappedValue = fn(value);
-    return Maybe.isMaybe(mappedValue) ? mappedValue : Maybe(mappedValue);
+    const _value = fn(value);
+    return Maybe.isMaybe(_value) ? _value : Maybe(_value);
   },
 
-  get(placeholder) {
-    return Maybe.isNone(value) ? placeholder : value;
+  then(fn) {
+    if (Maybe.isNone(value))
+      return;
+    fn(value);
   },
 });
 
