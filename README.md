@@ -33,6 +33,26 @@ This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 </script>
 ```
 
+## Usage
+
+```ts
+import Maybe from '@vitorluizc/maybe';
+
+// ...
+
+button.addEventListener('click', () => {
+  Maybe(field.value)
+    .map((name) => users.find((user) => user.name.includes(name)))
+    .map((user) => repositories.filter((repository) => repository.owner === user.id))
+    .then((repositories) => {
+      container.innerHTML = '';
+      repositories.forEach((repository) => {
+        container.innerHTML += renderRepository(repository);
+      });
+    });
+});
+```
+
 ## License
 
 Released under [MIT License](./LICENSE).
