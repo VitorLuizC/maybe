@@ -2,67 +2,65 @@ import test from 'ava';
 import Maybe from '../';
 
 test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
-  let value: Maybe<number>;
+  const valueA = Maybe<number>(undefined);
 
-  context.is(value, undefined);
+  context.is(valueA.get(0), 0);
 
-  value = null;
+  const valueB = Maybe<number>(null);
 
-  context.is(value, null);
+  context.is(valueB.get(0), 0);
 
-  value = 10;
+  const valueC = Maybe<number>(10);
 
-  context.is(value, 10);
+  context.is(valueC.get(0), 10);
 });
 
 test('Maybe enforce type safely flows', (context) => {
-  const name = 'Naruto Uzumaki' as Maybe<string>;
+  const name = Maybe('Naruto Uzumaki');
 
-  const names = Maybe.isNone(name) ? [] : name.replace(/\s+/, ' ').split(' ');
+  const names = name.map((name) => name.replace(/\s+/, ' ').split(' '));
 
-  context.deepEqual(names, ['Naruto', 'Uzumaki']);
+  context.deepEqual(names.get([]), ['Naruto', 'Uzumaki']);
 });
 
 test('Maybe.isNone check if value is none', (context) => {
-  context.true(Maybe.isNone(null as Maybe<[number, number]>));
-  context.true(Maybe.isNone(undefined as Maybe<'mobile' | 'desktop'>));
+  context.true(Maybe.isNone(null));
+  context.true(Maybe.isNone(undefined));
 });
 
 test('Maybe.isNone doesn\'t count falsy values as none', (context) => {
-  context.false(Maybe.isNone(0 as Maybe<number>));
-  context.false(Maybe.isNone('' as Maybe<string>));
-  context.false(Maybe.isNone(NaN as Maybe<number>));
-  context.false(Maybe.isNone(false as Maybe<boolean>));
+  context.false(Maybe.isNone(0));
+  context.false(Maybe.isNone(''));
+  context.false(Maybe.isNone(NaN));
+  context.false(Maybe.isNone(false));
 });
 
 test('Maybe.map call fn if value is some', (context) => {
-  const size = undefined as Maybe<number>;
+  const size = Maybe<number>(undefined);
 
   let fnWasCalledForSize = false;
 
-  Maybe.map(size, () => fnWasCalledForSize = true);
+  size.map(() => fnWasCalledForSize = true);
 
   context.false(fnWasCalledForSize);
 
-  const font = 'Operator Mono' as Maybe<string>;
+  const font = Maybe<string>('Operator Mono');
 
   let fnWasCalledForFont = false;
 
-  Maybe.map(font, () => fnWasCalledForFont = true);
+  font.map(() => fnWasCalledForFont = true);
 
   context.true(fnWasCalledForFont);
 });
 
 test('Maybe.map returns a Maybe typed value', (context) => {
-  const value = 150 as Maybe<number>;
+  const value = Maybe<number>(150);
 
-  const hash = Maybe.map(value, (value) => {
+  const hash = value.map((value) => {
     return Math.ceil(value).toString(16).substr(0, 8).padStart(8, '0');
   });
 
-  context.is(hash, '00000096');
-
-  const key = Maybe.isNone(hash) ? 'id-00000000' : 'id-' + hash;
+  const key = 'id-' + hash.get('00000000');
 
   context.is(key, 'id-00000096');
 });
