@@ -31,6 +31,33 @@ test('Maybe.isNone doesn\'t count falsy values as none', (context) => {
   context.false(Maybe.isNone(false));
 });
 
+// ..:: Maybe.none tests ::..
+
+test('Maybe.none creates Maybe for none value', (context) => {
+  let fnWasCalled = false;
+
+  Maybe.none().then(() => {
+    fnWasCalled = true;
+  });
+
+  context.false(fnWasCalled);
+});
+
+test('Maybe.none creates a Maybe instance', (context) => {
+  context.true(Maybe.isMaybe(Maybe.none()));
+});
+
+// ..:: Maybe.some ::..
+
+test('Maybe.some throws error if value is none', (context) => {
+  context.throws(() => Maybe.some(null));
+  context.throws(() => Maybe.some(undefined));
+});
+
+test('Maybe.some creates a Maybe instance', (context) => {
+  context.true(Maybe.isMaybe(Maybe.some(10)));
+});
+
 // ..:: Maybe.isMaybe tests ::..
 
 test('Maybe.isMaybe check if value is a Maybe', (context) => {

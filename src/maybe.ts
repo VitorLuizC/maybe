@@ -72,6 +72,23 @@ Maybe.isMaybe = (value: any): value is Maybe<any> => {
   return !!(value && value._isMaybe);
 };
 
+/**
+ * Create a Maybe instance for none value.
+ */
+Maybe.none = <T>(): Maybe<T> => {
+  return Maybe<T>(undefined);
+};
+
+/**
+ * Create a Maybe instance for some value (non-none), throws Error otherwise.
+ * @param value - A non-none value.
+ */
+Maybe.some = <T>(value: T): Maybe<T> => {
+  if (Maybe.isNone(value))
+    throw new Error('Can\'t use none as Maybe.some value.');
+  return Maybe<T>(value);
+};
+
 export { None };
 
 export default Maybe;
