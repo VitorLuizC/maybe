@@ -141,3 +141,35 @@ test('Maybe.then runs fn if value is some', (context) => {
 
   context.true(fnWasCalledForFont);
 });
+
+// ..:: maybe.then tests ::..
+
+test('Maybe.match runs none if is none', (context) => {
+  const size = Maybe.none<number>();
+
+  let noneWasCalledOnSize = false;
+  let someWasCalledOnSize = false;
+
+  size.match({
+    none: () => noneWasCalledOnSize = true,
+    some: () => someWasCalledOnSize = true,
+  });
+
+  context.true(noneWasCalledOnSize);
+  context.false(someWasCalledOnSize);
+});
+
+test('Maybe.match runs some if is some', (context) => {
+  const font = Maybe.some<string>('Operator Mono');
+
+  let noneWasCalledOnFont = false;
+  let someWasCalledOnFont = false;
+
+  font.match({
+    none: () => noneWasCalledOnFont = true,
+    some: () => someWasCalledOnFont = true,
+  });
+
+  context.false(noneWasCalledOnFont)
+  context.true(someWasCalledOnFont)
+});

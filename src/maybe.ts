@@ -4,6 +4,14 @@
 type None = void | null | undefined;
 
 /**
+ * MaybePattern is a type to used to match maybe patterns and handle each one.
+ */
+type MaybePattern<T, U> = {
+  none: () => U;
+  some: (value: T) => U;
+};
+
+/**
  * Maybe is a type to handle optional and/or nullable values in a safe flow.
  */
 type Maybe <T> = {
@@ -29,6 +37,11 @@ type Maybe <T> = {
    * @param fn - `do` function receives value and do side-effects.
    */
   then(fn: (value: T) => void): void;
+
+  /**
+   * Match a pattern and execute it's function.
+   */
+  match<U>(pattern: MaybePattern<T, U>): U;
 };
 
 /**
@@ -53,6 +66,10 @@ const Maybe = <T>(value: T | None): Maybe<T> => ({
     if (Maybe.isNone(value))
       return;
     fn(value);
+  },
+
+  match(pattern) {
+    return Maybe.isNone(value) ? pattern.none() : pattern.some(value);
   },
 });
 
@@ -89,6 +106,6 @@ Maybe.some = <T>(value: T): Maybe<T> => {
   return Maybe<T>(value);
 };
 
-export { None };
+export { None, MaybePattern };
 
 export default Maybe;
