@@ -1,5 +1,14 @@
 import test from 'ava';
-import Maybe from '../';
+import Maybe, { isMaybe } from '../';
+
+// ..:: isMaybe tests ::..
+
+test('isMaybe check if value is a Maybe', (context) => {
+  context.true(isMaybe(Maybe()));
+  context.false(isMaybe({}));
+  context.false(isMaybe(NaN));
+  context.false(isMaybe(undefined));
+});
 
 // ..:: Maybe factory tests ::..
 
@@ -17,20 +26,6 @@ test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
   context.is(valueC.get(0), 10);
 });
 
-// ..:: Maybe.isNone tests ::..
-
-test('Maybe.isNone check if value is none', (context) => {
-  context.true(Maybe.isNone(null));
-  context.true(Maybe.isNone(undefined));
-});
-
-test('Maybe.isNone doesn\'t count falsy values as none', (context) => {
-  context.false(Maybe.isNone(0));
-  context.false(Maybe.isNone(''));
-  context.false(Maybe.isNone(NaN));
-  context.false(Maybe.isNone(false));
-});
-
 // ..:: Maybe.none tests ::..
 
 test('Maybe.none creates Maybe for none value', (context) => {
@@ -44,7 +39,7 @@ test('Maybe.none creates Maybe for none value', (context) => {
 });
 
 test('Maybe.none creates a Maybe instance', (context) => {
-  context.true(Maybe.isMaybe(Maybe.none()));
+  context.true(isMaybe(Maybe.none()));
 });
 
 // ..:: Maybe.some ::..
@@ -55,16 +50,7 @@ test('Maybe.some throws error if value is none', (context) => {
 });
 
 test('Maybe.some creates a Maybe instance', (context) => {
-  context.true(Maybe.isMaybe(Maybe.some(10)));
-});
-
-// ..:: Maybe.isMaybe tests ::..
-
-test('Maybe.isMaybe check if value is a Maybe', (context) => {
-  context.true(Maybe.isMaybe(Maybe()));
-  context.false(Maybe.isMaybe({}));
-  context.false(Maybe.isMaybe(NaN));
-  context.false(Maybe.isMaybe(undefined));
+  context.true(isMaybe(Maybe.some(10)));
 });
 
 // ..:: maybe.get tests ::..
@@ -102,7 +88,7 @@ test('Maybe.map call fn if value is some', (context) => {
 test('Maybe.map returns empty Maybe if value is None', (context) => {
   const value = Maybe<number>().map(() => 1000);
 
-  context.true(Maybe.isMaybe(value));
+  context.true(isMaybe(value));
 
   let fnWasCalled = false;
 
@@ -114,11 +100,11 @@ test('Maybe.map returns empty Maybe if value is None', (context) => {
 test('Maybe.map resolve Maybe<Maybe<any>> to Maybe<any>', (context) => {
   const value = Maybe<number>(100).map((value) => Maybe(value));
 
-  context.true(Maybe.isMaybe(value));
+  context.true(isMaybe(value));
 
   value.then((value) => {
     context.is(value, 100)
-    context.false(Maybe.isMaybe(value))
+    context.false(isMaybe(value))
   });
 });
 
