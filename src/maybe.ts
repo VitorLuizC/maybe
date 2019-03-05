@@ -1,7 +1,4 @@
-/**
- * Combine JavaScript empty (null) and undefined types.
- */
-type None = void | null | undefined;
+import { None, isNone } from './none';
 
 /**
  * MaybePattern is a type to used to match maybe patterns and handle each one.
@@ -45,6 +42,14 @@ type Maybe <T> = {
 };
 
 /**
+ * Check if value is a Maybe.
+ * @param value - Any value compared to Maybe.
+ */
+function isMaybe(value: unknown): value is Maybe<any> {
+  return !!value && (value as { _isMaybe?: any })._isMaybe === true;
+}
+
+/**
  * Maybe constructor (factory) and helpers.
  * @param value
  */
@@ -52,42 +57,26 @@ const Maybe = <T>(value: T | None): Maybe<T> => ({
   _isMaybe: true,
 
   get(placeholder) {
-    return Maybe.isNone(value) ? placeholder : value;
+    return isNone(value) ? placeholder : value;
   },
 
   map(fn) {
-    if (Maybe.isNone(value))
+    if (isNone(value))
       return Maybe();
     const _value = fn(value);
-    return Maybe.isMaybe(_value) ? _value : Maybe(_value);
+    return isMaybe(_value) ? _value : Maybe(_value);
   },
 
   then(fn) {
-    if (Maybe.isNone(value))
+    if (isNone(value))
       return;
     fn(value);
   },
 
   match(pattern) {
-    return Maybe.isNone(value) ? pattern.none() : pattern.some(value);
+    return isNone(value) ? pattern.none() : pattern.some(value);
   },
 });
-
-/**
- * Check if value is none.
- * @param [value]
- */
-Maybe.isNone = <T>(value: T | None): value is None => {
-  return value === null || value === undefined;
-};
-
-/**
- * Check if value is a Maybe.
- * @param [value]
- */
-Maybe.isMaybe = (value: any): value is Maybe<any> => {
-  return !!(value && value._isMaybe);
-};
 
 /**
  * Create a Maybe instance for none value.
@@ -101,11 +90,11 @@ Maybe.none = <T>(): Maybe<T> => {
  * @param value - A non-none value.
  */
 Maybe.some = <T>(value: T): Maybe<T> => {
-  if (Maybe.isNone(value))
+  if (isNone(value))
     throw new Error('Can\'t use none as Maybe.some value.');
   return Maybe<T>(value);
 };
 
-export { None, MaybePattern };
+export { None, isNone, MaybePattern, Maybe, isMaybe };
 
 export default Maybe;
