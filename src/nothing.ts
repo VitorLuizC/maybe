@@ -1,23 +1,32 @@
 /**
  * A union of JavaScript `void`, `null` and `undefined` types.
- * @example
+ *
  * ```ts
  * let value: Nothing;
  *
  * value = null;
  * value = undefined;
  * value = ((): void => {})();
+ * ```
  *
- * value = false;
- * //=> Error { Type 'false' is not assignable to type 'Nothing'. }
+ * Any other value, even falsy, is not assignable to `Nothing`.
+ *
+ * ```ts
+ * let value: Nothing;
+ *
+ * value = 100;
+ * //=> Error { Type '100' is not assignable to type 'Nothing'. }
+ *
+ * value = NaN;
+ * //=> Error { Type 'number' is not assignable to type 'Nothing'. }
  * ```
  */
 export type Nothing = void | null | undefined;
 
 /**
- * Check if the value is `Nothing`. It uses a type predicate and returns `true`
- * if the value matches `void`, `null` or `undefined` and `false` otherwise.
- * @example
+ * Check if the value is `Nothing`. It returns `true` if the value matches
+ * `void`, `null` or `undefined` and `false` otherwise.
+ *
  * ```ts
  * isNothing();
  * //=> true
@@ -30,7 +39,11 @@ export type Nothing = void | null | undefined;
  *
  * isNothing(0);
  * //=> false
+ * ```
  *
+ * It uses a type predicate and prevent some mistakes with type check.
+ *
+ * ```ts
  * let name: string | Nothing;
  *
  * isNothing(name) ? '' : name.toLowerCase();
@@ -40,6 +53,7 @@ export type Nothing = void | null | undefined;
  * //=> Error { Object is possibly 'null' or 'undefined'. }
  * //=> Error { Property 'trim' does not exist on type 'void'. }
  * ```
+ *
  * @param value - A value to be compared to Nothing.
  */
 export function isNothing(value: unknown): value is Nothing {
