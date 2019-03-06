@@ -1,9 +1,35 @@
 import { Nothing, isNothing } from './nothing';
 
 /**
- * Returns value if some or placeholder otherwise.
- * @param value - None or a value.
- * @param placeholder - A value returned if first is none.
+ * Get the placeholder if the value is `Nothing` and the value itself otherwise.
+ *
+ * ```ts
+ * let name: string | Nothing;
+ *
+ * get(name, 'Unknown');
+ * //=> 'Unknown'
+ *
+ * name = 'Will';
+ *
+ * get(name, 'Unknown');
+ * //=> 'Will'
+ * ```
+ *
+ * It uses generic type `T` for the value and the placeholder. It prevents an
+ * inconsistent function behavior, returning different types.
+ *
+ * ```ts
+ * let name: string | Nothing;
+ *
+ * get(name, false);
+ * //=> Error { Argument of type 'false' is not assignable to parameter of type 'string'. }
+ *
+ * get<number>(undefined, 'Okay');
+ * //=> Error { Argument of type '"Okay"' is not assignable to parameter of type 'number'. }
+ * ```
+ *
+ * @param value - A value of generic type `T` or `Nothing`.
+ * @param placeholder - Placeholder of type `T` returned if value is `Nothing`.
  */
 function get<T>(value: T | Nothing, placeholder: T): T {
   return isNothing(value) ? placeholder : value;
