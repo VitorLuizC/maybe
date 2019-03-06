@@ -27,6 +27,15 @@ type MaybePattern<T, U> = {
 };
 
 /**
+ * Match a pattern and execute it's function with value.
+ * @param value - None or a value.
+ * @param pattern - Patterns to handle.
+ */
+function match<T, U>(value: T | Nothing, pattern: MaybePattern<T, U>): U {
+  return isNothing(value) ? pattern.none() : pattern.some(value);
+}
+
+/**
  * Maybe is a type to handle optional and/or nullable values in a safe flow.
  */
 type Maybe <T> = {
@@ -85,9 +94,7 @@ const Maybe = <T>(value: T | Nothing): Maybe<T> => ({
 
   then: (fn: (value: T) => void): void => void map(value, fn),
 
-  match(pattern) {
-    return isNothing(value) ? pattern.none() : pattern.some(value);
-  },
+  match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
 });
 
 /**
@@ -113,6 +120,7 @@ export {
   get,
   map,
   MaybePattern,
+  match,
   Maybe,
   isMaybe,
 };
