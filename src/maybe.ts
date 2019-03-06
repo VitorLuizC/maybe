@@ -57,12 +57,6 @@ type Maybe <T> = {
   map<U>(fn: (value: T) => U | Maybe<U>): Maybe<U>;
 
   /**
-   * Call side-effects function if value is some.
-   * @param fn - `do` function receives value and do side-effects.
-   */
-  then(fn: (value: T) => void): void;
-
-  /**
    * Match a pattern and execute it's function.
    */
   match<U>(pattern: MaybePattern<T, U>): U;
@@ -92,8 +86,6 @@ function Maybe<T>(value: T | Nothing): Maybe<T> {
       const _value = fn(value);
       return isMaybe(_value) ? _value : Maybe(_value);
     },
-
-    then: (fn: (value: T) => void): void => void map(value, fn),
 
     match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
   };
