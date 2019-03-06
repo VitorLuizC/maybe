@@ -11,9 +11,10 @@
   "umd:main": "dist/maybe.umd.js",
   "files": ["dist/"],
   "scripts": {
+    "docs": "typedoc",
     "test": "ava",
     "build": "bili",
-    "prepublish": "yarn build && yarn test"
+    "prepare": "yarn docs && yarn build && yarn test"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,8 @@
     "bili": "^4.2.5",
     "rollup-plugin-typescript2": "^0.19.2",
     "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-markdown": "^1.1.27",
     "typescript": "^3.3.3"
   },
   "ava": {

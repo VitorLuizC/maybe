@@ -6,8 +6,5 @@
     "declarationDir": "dist/",
     "esModuleInterop": true
   },
-  "exclude": [
-    "test/",
-    "dist/"
-  ]
+  "files": ["src/maybe.ts"]
 }

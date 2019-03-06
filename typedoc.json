@@ -1,0 +1,8 @@
+{
+  "out": ".",
+  "mode": "file",
+  "theme": "markdown",
+  "module": "es2015",
+  "readme": "docs/README.md",
+  "disableOutputCheck": true
+}
