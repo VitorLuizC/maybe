@@ -1,4 +1,6 @@
-import { None, isNone } from './none';
+import { Nothing, isNothing } from './nothing';
+
+export { Nothing, isNothing };
 
 /**
  * MaybePattern is a type to used to match maybe patterns and handle each one.
@@ -53,28 +55,28 @@ function isMaybe(value: unknown): value is Maybe<any> {
  * Maybe constructor (factory) and helpers.
  * @param value
  */
-const Maybe = <T>(value: T | None): Maybe<T> => ({
+const Maybe = <T>(value: T | Nothing): Maybe<T> => ({
   _isMaybe: true,
 
   get(placeholder) {
-    return isNone(value) ? placeholder : value;
+    return isNothing(value) ? placeholder : value;
   },
 
   map(fn) {
-    if (isNone(value))
+    if (isNothing(value))
       return Maybe();
     const _value = fn(value);
     return isMaybe(_value) ? _value : Maybe(_value);
   },
 
   then(fn) {
-    if (isNone(value))
+    if (isNothing(value))
       return;
     fn(value);
   },
 
   match(pattern) {
-    return isNone(value) ? pattern.none() : pattern.some(value);
+    return isNothing(value) ? pattern.none() : pattern.some(value);
   },
 });
 
@@ -90,11 +92,11 @@ Maybe.none = <T>(): Maybe<T> => {
  * @param value - A non-none value.
  */
 Maybe.some = <T>(value: T): Maybe<T> => {
-  if (isNone(value))
+  if (isNothing(value))
     throw new Error('Can\'t use none as Maybe.some value.');
   return Maybe<T>(value);
 };
 
-export { None, isNone, MaybePattern, Maybe, isMaybe };
+export { MaybePattern, Maybe, isMaybe };
 
 export default Maybe;
