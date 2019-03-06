@@ -1,6 +1,13 @@
 import { Nothing, isNothing } from './nothing';
 
-export { Nothing, isNothing };
+/**
+ * Returns value if some or placeholder otherwise.
+ * @param value - None or a value.
+ * @param placeholder - A value returned if first is none.
+ */
+function get<T>(value: T | Nothing, placeholder: T): T {
+  return isNothing(value) ? placeholder : value;
+}
 
 /**
  * MaybePattern is a type to used to match maybe patterns and handle each one.
@@ -58,9 +65,7 @@ function isMaybe(value: unknown): value is Maybe<any> {
 const Maybe = <T>(value: T | Nothing): Maybe<T> => ({
   _isMaybe: true,
 
-  get(placeholder) {
-    return isNothing(value) ? placeholder : value;
-  },
+  get: get.bind(undefined, value) as unknown as (placeholder: T) => T,
 
   map(fn) {
     if (isNothing(value))
@@ -97,6 +102,13 @@ Maybe.some = <T>(value: T): Maybe<T> => {
   return Maybe<T>(value);
 };
 
-export { MaybePattern, Maybe, isMaybe };
+export {
+  Nothing,
+  isNothing,
+  get,
+  MaybePattern,
+  Maybe,
+  isMaybe,
+};
 
 export default Maybe;

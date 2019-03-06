@@ -53,10 +53,8 @@ test('Maybe.some creates a Maybe instance', (context) => {
   context.true(isMaybe(Maybe.some(10)));
 });
 
-// ..:: maybe.get tests ::..
-
 test('Maybe.get returns value or placeholder if it\'s none', (context) => {
-  const size = Maybe<number>();
+  const size = Maybe.none<number>();
 
   context.is(size.get(0), 0);
 
