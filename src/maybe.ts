@@ -80,39 +80,41 @@ function isMaybe(value: unknown): value is Maybe<any> {
  * Maybe constructor (factory) and helpers.
  * @param value
  */
-const Maybe = <T>(value: T | Nothing): Maybe<T> => ({
-  _isMaybe: true,
+function Maybe<T>(value: T | Nothing): Maybe<T> {
+  return {
+    _isMaybe: true,
 
-  get: get.bind(undefined, value) as unknown as (placeholder: T) => T,
+    get: get.bind(undefined, value) as unknown as (placeholder: T) => T,
 
-  map: <U>(fn: (value: T) => U | Maybe<U>): Maybe<U> => {
-    if (isNothing(value))
-      return Maybe();
-    const _value = fn(value);
-    return isMaybe(_value) ? _value : Maybe(_value);
-  },
+    map: <U>(fn: (value: T) => U | Maybe<U>): Maybe<U> => {
+      if (isNothing(value))
+        return Maybe();
+      const _value = fn(value);
+      return isMaybe(_value) ? _value : Maybe(_value);
+    },
 
-  then: (fn: (value: T) => void): void => void map(value, fn),
+    then: (fn: (value: T) => void): void => void map(value, fn),
 
-  match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
-});
+    match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
+  };
+}
 
 /**
  * Create a Maybe instance for none value.
  */
-Maybe.none = <T>(): Maybe<T> => {
+function None<T>(): Maybe<T> {
   return Maybe<T>(undefined);
-};
+}
 
 /**
  * Create a Maybe instance for some value (non-none), throws Error otherwise.
  * @param value - A non-none value.
  */
-Maybe.some = <T>(value: T): Maybe<T> => {
+function Some<T>(value: T): Maybe<T> {
   if (isNothing(value))
     throw new Error('Can\'t use none as Maybe.some value.');
   return Maybe<T>(value);
-};
+}
 
 export {
   Nothing,
@@ -123,6 +125,8 @@ export {
   match,
   Maybe,
   isMaybe,
+  None,
+  Some,
 };
 
 export default Maybe;

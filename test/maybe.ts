@@ -1,7 +1,7 @@
 import test from 'ava';
 import Maybe, { isMaybe } from '../';
 
-// ..:: isMaybe tests ::..
+// ..:: isMaybe ::..
 
 test('isMaybe check if value is a Maybe', (context) => {
   context.true(isMaybe(Maybe()));
@@ -10,7 +10,7 @@ test('isMaybe check if value is a Maybe', (context) => {
   context.false(isMaybe(undefined));
 });
 
-// ..:: Maybe factory tests ::..
+// ..:: Maybe ::..
 
 test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
   const valueA = Maybe<number>(undefined);
@@ -26,32 +26,7 @@ test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
   context.is(valueC.get(0), 10);
 });
 
-// ..:: Maybe.none tests ::..
-
-test('Maybe.none creates Maybe for none value', (context) => {
-  let fnWasCalled = false;
-
-  Maybe.none().then(() => {
-    fnWasCalled = true;
-  });
-
-  context.false(fnWasCalled);
-});
-
-test('Maybe.none creates a Maybe instance', (context) => {
-  context.true(isMaybe(Maybe.none()));
-});
-
-// ..:: Maybe.some ::..
-
-test('Maybe.some throws error if value is none', (context) => {
-  context.throws(() => Maybe.some(null));
-  context.throws(() => Maybe.some(undefined));
-});
-
-test('Maybe.some creates a Maybe instance', (context) => {
-  context.true(isMaybe(Maybe.some(10)));
-});
+// ..:: Maybe.get ::..
 
 test('Maybe.get returns value or placeholder if it\'s none', (context) => {
   const size = Maybe.none<number>();
@@ -63,7 +38,7 @@ test('Maybe.get returns value or placeholder if it\'s none', (context) => {
   context.is(font.get(''), 'Operator Mono');
 });
 
-// ..:: maybe.map tests ::..
+// ..:: Maybe.map ::..
 
 test('Maybe.map call fn if value is some', (context) => {
   const size = Maybe<number>(undefined);
@@ -106,7 +81,7 @@ test('Maybe.map resolve Maybe<Maybe<any>> to Maybe<any>', (context) => {
   });
 });
 
-// ..:: maybe.then tests ::..
+// ..:: Maybe.then ::..
 
 test('Maybe.then runs fn if value is some', (context) => {
   const size = Maybe<number>(undefined);
@@ -126,7 +101,7 @@ test('Maybe.then runs fn if value is some', (context) => {
   context.true(fnWasCalledForFont);
 });
 
-// ..:: maybe.then tests ::..
+// ..:: Maybe.match ::..
 
 test('Maybe.match runs none if is none', (context) => {
   const size = Maybe.none<number>();
@@ -156,4 +131,31 @@ test('Maybe.match runs some if is some', (context) => {
 
   context.false(noneWasCalledOnFont)
   context.true(someWasCalledOnFont)
+});
+
+// ..:: Some ::..
+
+test('Some throws error if value is none', (context) => {
+  context.throws(() => Maybe.some(null));
+  context.throws(() => Maybe.some(undefined));
+});
+
+test('Some creates a Maybe instance', (context) => {
+  context.true(isMaybe(Maybe.some(10)));
+});
+
+// ..:: None ::..
+
+test('None creates Maybe for none value', (context) => {
+  let fnWasCalled = false;
+
+  Maybe.none().then(() => {
+    fnWasCalled = true;
+  });
+
+  context.false(fnWasCalled);
+});
+
+test('None creates a Maybe instance', (context) => {
+  context.true(isMaybe(Maybe.none()));
 });
