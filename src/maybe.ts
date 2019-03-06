@@ -48,18 +48,23 @@ type Maybe <T> = {
    * Return value if some and the placeholder otherwise.
    * @param placeholder - Alternative value, returned if value is none.
    */
-  get(placeholder: T): T;
+  get: (placeholder: T) => T;
 
   /**
    * Call mapper if value is some and wraps return into new Maybe.
    * @param fn - Mapper function receives value and return another one.
    */
-  map<U>(fn: (value: T) => U | Maybe<U>): Maybe<U>;
+  map: <U>(fn: (value: T) => U | Maybe<U>) => Maybe<U>;
 
   /**
    * Match a pattern and execute it's function.
    */
-  match<U>(pattern: MaybePattern<T, U>): U;
+  match: <U>(pattern: MaybePattern<T, U>) => U;
+
+  /**
+   * Unwraps value and return it.
+   */
+  unwrap: () => T | Nothing;
 };
 
 /**
@@ -84,10 +89,12 @@ function Maybe<T>(value: T | Nothing): Maybe<T> {
       if (isNothing(value))
         return Maybe();
       const _value = fn(value);
-      return isMaybe(_value) ? _value : Maybe(_value);
+      return isMaybe(_value) ? _value as Maybe<U> : Maybe(_value as U);
     },
 
     match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
+
+    unwrap: (): T | Nothing => value,
   };
 }
 
