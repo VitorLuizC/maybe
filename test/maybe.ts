@@ -1,5 +1,5 @@
 import test from 'ava';
-import Maybe, { isMaybe } from '../';
+import Maybe, { isMaybe, None, Some } from '../';
 
 // ..:: isMaybe ::..
 
@@ -29,7 +29,7 @@ test('Maybe typed value can be `null`, `undefined` or `T`', (context) => {
 // ..:: Maybe.get ::..
 
 test('Maybe.get returns value or placeholder if it\'s none', (context) => {
-  const size = Maybe.none<number>();
+  const size = None<number>();
 
   context.is(size.get(0), 0);
 
@@ -65,7 +65,7 @@ test('Maybe.map returns empty Maybe if value is None', (context) => {
 
   let fnWasCalled = false;
 
-  value.then(() => fnWasCalled = true);
+  value.map(() => fnWasCalled = true);
 
   context.false(fnWasCalled);
 });
@@ -75,36 +75,16 @@ test('Maybe.map resolve Maybe<Maybe<any>> to Maybe<any>', (context) => {
 
   context.true(isMaybe(value));
 
-  value.then((value) => {
+  value.map((value) => {
     context.is(value, 100)
     context.false(isMaybe(value))
   });
 });
 
-// ..:: Maybe.then ::..
-
-test('Maybe.then runs fn if value is some', (context) => {
-  const size = Maybe<number>(undefined);
-
-  let fnWasCalledForSize = false;
-
-  size.then(() => fnWasCalledForSize = true);
-
-  context.false(fnWasCalledForSize);
-
-  const font = Maybe<string>('Operator Mono');
-
-  let fnWasCalledForFont = false;
-
-  font.then(() => fnWasCalledForFont = true);
-
-  context.true(fnWasCalledForFont);
-});
-
 // ..:: Maybe.match ::..
 
 test('Maybe.match runs none if is none', (context) => {
-  const size = Maybe.none<number>();
+  const size = None<number>();
 
   let noneWasCalledOnSize = false;
   let someWasCalledOnSize = false;
@@ -119,7 +99,7 @@ test('Maybe.match runs none if is none', (context) => {
 });
 
 test('Maybe.match runs some if is some', (context) => {
-  const font = Maybe.some<string>('Operator Mono');
+  const font = Some<string>('Operator Mono');
 
   let noneWasCalledOnFont = false;
   let someWasCalledOnFont = false;
@@ -133,15 +113,27 @@ test('Maybe.match runs some if is some', (context) => {
   context.true(someWasCalledOnFont)
 });
 
+// ..:: Maybe.unwrap ::..
+
+test('Maybe.unwrap returns Maybe wrapped value', (context) => {
+  const valueA = null;
+  const valueB = undefined;
+  const valueC = 'It\'s not Nothing.';
+
+  context.is(Maybe(valueA).unwrap(), valueA);
+  context.is(Maybe(valueB).unwrap(), valueB);
+  context.is(Maybe(valueC).unwrap(), valueC);
+});
+
 // ..:: Some ::..
 
 test('Some throws error if value is none', (context) => {
-  context.throws(() => Maybe.some(null));
-  context.throws(() => Maybe.some(undefined));
+  context.throws(() => Some(null));
+  context.throws(() => Some(undefined));
 });
 
 test('Some creates a Maybe instance', (context) => {
-  context.true(isMaybe(Maybe.some(10)));
+  context.true(isMaybe(Some(10)));
 });
 
 // ..:: None ::..
@@ -149,7 +141,7 @@ test('Some creates a Maybe instance', (context) => {
 test('None creates Maybe for none value', (context) => {
   let fnWasCalled = false;
 
-  Maybe.none().then(() => {
+  None().map(() => {
     fnWasCalled = true;
   });
 
@@ -157,5 +149,5 @@ test('None creates Maybe for none value', (context) => {
 });
 
 test('None creates a Maybe instance', (context) => {
-  context.true(isMaybe(Maybe.none()));
+  context.true(isMaybe(None()));
 });
