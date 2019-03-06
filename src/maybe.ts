@@ -10,6 +10,15 @@ function get<T>(value: T | Nothing, placeholder: T): T {
 }
 
 /**
+ *  if some or return none.
+ * @param value - None or a value.
+ * @param fn - A mapper function
+ */
+function map<T, U>(value: T | Nothing, fn: (value: T) => U | Nothing): U | Nothing {
+  return isNothing(value) ? undefined : fn(value);
+}
+
+/**
  * MaybePattern is a type to used to match maybe patterns and handle each one.
  */
 type MaybePattern<T, U> = {
@@ -67,18 +76,14 @@ const Maybe = <T>(value: T | Nothing): Maybe<T> => ({
 
   get: get.bind(undefined, value) as unknown as (placeholder: T) => T,
 
-  map(fn) {
+  map: <U>(fn: (value: T) => U | Maybe<U>): Maybe<U> => {
     if (isNothing(value))
       return Maybe();
     const _value = fn(value);
     return isMaybe(_value) ? _value : Maybe(_value);
   },
 
-  then(fn) {
-    if (isNothing(value))
-      return;
-    fn(value);
-  },
+  then: (fn: (value: T) => void): void => void map(value, fn),
 
   match(pattern) {
     return isNothing(value) ? pattern.none() : pattern.some(value);
@@ -106,6 +111,7 @@ export {
   Nothing,
   isNothing,
   get,
+  map,
   MaybePattern,
   Maybe,
   isMaybe,
