@@ -16,6 +16,7 @@ import { Nothing, isNothing } from './nothing';
  * ```
  * @param value - A value of generic type `T` or `Nothing`.
  * @param placeholder - Placeholder of type `T` returned if value is `Nothing`.
+ * @typeparam T - The generic type of value that is not `Nothing`.
  */
 function get<T>(value: T | Nothing, placeholder: T): T {
   return isNothing(value) ? placeholder : value;
@@ -40,18 +41,40 @@ function get<T>(value: T | Nothing, placeholder: T): T {
  * @param value - A value of generic type `T` or `Nothing`.
  * @param fn - The map function called with value as the argument if it isn't
  * `Nothing`.
+ * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam U - The generic type of value returned by fn (the map function).
  */
 function map<T, U>(value: T | Nothing, fn: (value: T) => U | Nothing): U | Nothing {
   return isNothing(value) ? undefined : fn(value);
 }
 
 /**
- * MaybePattern is a type to used to match maybe patterns and handle each one.
+ * Interface of patterns and their handlers (functions) for the value that maybe
+ * is `Nothing`.
+ * @example
+ * ```ts
+ * const pattern: MaybePattern<string, Array<string>> = {
+ *   none: () => [],
+ *   some: (name) => name.split(''),
+ * };
+ * ```
+ * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam U - The generic type of value returned by handlers (functions).
  */
-type MaybePattern<T, U> = {
+interface MaybePattern<T, U> {
+  /**
+   * Handler (function) for pattern matched if the value is `Nothing`. It
+   * doesn't receive the value as the argument.
+   */
   none: () => U;
+
+  /**
+   * Handler (function) for pattern matched if the value isn't `Nothing`. In
+   * contrast to the none handler, it receives value as the argument.
+   * @param value - The value (not `Nothing`).
+   */
   some: (value: T) => U;
-};
+}
 
 /**
  * Match a pattern and execute it's function with value.
