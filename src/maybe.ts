@@ -108,36 +108,94 @@ function match<T, U>(value: T | Nothing, pattern: MaybePattern<T, U>): U {
 }
 
 /**
- * Maybe is a type to handle optional and/or nullable values in a safe flow.
+ * Interface of Maybe instances, objects that wraps unsafe values and provide
+ * methods to handle it in a _safe flow_.
+ * @typeparam T - The generic type of value that is not `Nothing`.
  */
-type Maybe <T> = {
+interface Maybe<T> {
   /**
-   * A private token to check if value is a Maybe.
+   * @private
+   * A property used to check if value is a Maybe.
    */
   _isMaybe: true;
 
   /**
-   * Return value if some and the placeholder otherwise.
-   * @param placeholder - Alternative value, returned if value is none.
+   * Get Maybe wrapped value if it isn't `Nothing` and a placeholder otherwise.
+   * @example
+   * ```ts
+   * createMaybe<string>(null).get('Unknown');
+   * //=> 'Unknown'
+   *
+   * createMaybe<string>('Will').get('Unknown');
+   * //=> 'Will'
+   * ```
+   * @param placeholder - The placeholder returned if wrapped value is `Nothing`.
    */
   get: (placeholder: T) => T;
 
   /**
-   * Call mapper if value is some and wraps return into new Maybe.
-   * @param fn - Mapper function receives value and return another one.
+   * If Maybe wrapped value is `Nothing` it returns a Maybe<U>, without calling
+   * fn (the map function). Otherwise, call fn (the map function) with Maybe
+   * wrapped value as the argument and return a new Maybe from its result, it
+   * also prevents Maybe from wrap anotherMaybe instance (flatten).
+   * @example
+   * ```ts
+   * createMaybe<string>().map((name) => name.split(''));
+   * //=> Maybe<string[]>
+   *
+   * createMaybe('Max').map((name) => name.split(''));
+   * //=> Maybe<string[]>
+   *
+   * const toLetters = (word: string) => createMaybe<string[]>(
+   *   !!word.trim() ? [...word] : undefined
+   * );
+   *
+   * createMaybe('Max').map(toLetters);
+   * //=> Maybe<string[]>
+   * ```
+   * @param fn - The map function called with value as the argument if it isn't
+   * `Nothing`.
+   * @typeparam U - The generic type of value returned by fn (the map function).
    */
   map: <U>(fn: (value: T) => U | Maybe<U>) => Maybe<U>;
 
   /**
-   * Match a pattern and execute it's function.
+   * Match Maybe wrapped value pattern, call its handler (function) and return
+   * the result. It matches pattern `none` if the value is `Nothing` and `some`
+   * otherwise.
+   * @example
+   * ```ts
+   * createMaybe<string>().match({
+   *   none: () => [],
+   *   some: (name) => name.split(''),
+   * });
+   * //=> []
+   *
+   * createMaybe('Max').match({
+   *   none: () => [],
+   *   some: (name) => name.split(''),
+   * });
+   * //=> ['M', 'a', 'x']
+   * ```
+   * @param pattern - A MaybePattern implementation for the value.
+   * @typeparam U - The generic type of value returned by handlers (functions)
+   * of the patterns.
    */
   match: <U>(pattern: MaybePattern<T, U>) => U;
 
   /**
-   * Unwraps value and return it.
+   * Return Maybe wrapped value (unwraps it).
+   * @example
+   * ```ts
+   * createMaybe<string>().unwrap();
+   * //=> undefined
+   *
+   * createMaybe<string>('Max').unwrap();
+   * //=> 'Max'
+   * ```
    */
   unwrap: () => T | Nothing;
-};
+}
 
 /**
  * Check if value is a Maybe.
