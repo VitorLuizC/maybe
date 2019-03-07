@@ -77,9 +77,31 @@ interface MaybePattern<T, U> {
 }
 
 /**
- * Match a pattern and execute it's function with value.
- * @param value - None or a value.
- * @param pattern - Patterns to handle.
+ * Match the value pattern, call its handler (function) and return its result.
+ * It matches pattern `none` if the value is `Nothing` and `some` otherwise.
+ * @example
+ * ```ts
+ * let name: string | Nothing;
+ *
+ * match(name, {
+ *   none: () => [],
+ *   some: (name) => name.split(''),
+ * });
+ * //=> []
+ *
+ * name = 'Max';
+ *
+ * match(name, {
+ *   none: () => [],
+ *   some: (name) => name.split(''),
+ * });
+ * //=> ['M', 'a', 'x']
+ * ```
+ * @param value - A value of generic type `T` or `Nothing`.
+ * @param pattern - A MaybePattern implementation for the value.
+ * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam U - The generic type of value returned by handlers (functions) of
+ * the patterns.
  */
 function match<T, U>(value: T | Nothing, pattern: MaybePattern<T, U>): U {
   return isNothing(value) ? pattern.none() : pattern.some(value);
