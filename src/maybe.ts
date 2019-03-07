@@ -2,7 +2,7 @@ import { Nothing, isNothing } from './nothing';
 
 /**
  * Get the placeholder if the value is `Nothing` and the value itself otherwise.
- *
+ * @example
  * ```ts
  * let name: string | Nothing;
  *
@@ -14,20 +14,6 @@ import { Nothing, isNothing } from './nothing';
  * get(name, 'Unknown');
  * //=> 'Will'
  * ```
- *
- * It uses generic type `T` for the value and the placeholder. It prevents an
- * inconsistent function behavior, returning different types.
- *
- * ```ts
- * let name: string | Nothing;
- *
- * get(name, false);
- * //=> Error { Argument of type 'false' is not assignable to parameter of type 'string'. }
- *
- * get<number>(undefined, 'Okay');
- * //=> Error { Argument of type '"Okay"' is not assignable to parameter of type 'number'. }
- * ```
- *
  * @param value - A value of generic type `T` or `Nothing`.
  * @param placeholder - Placeholder of type `T` returned if value is `Nothing`.
  */
@@ -36,9 +22,24 @@ function get<T>(value: T | Nothing, placeholder: T): T {
 }
 
 /**
- *  if some or return none.
- * @param value - None or a value.
- * @param fn - A mapper function
+ * Call fn (the map function) with value as the argument and return its result
+ * if the value isn't `Nothing`. Otherwise return `Nothing`, without calling fn
+ * (the map function).
+ * @example
+ * ```ts
+ * let name: string | Nothing;
+ *
+ * map(name, (name) => name.split(''));
+ * //=> undefined
+ *
+ * name = 'William';
+ *
+ * map(name, (name) => name.split(''));
+ * //=> ['W', 'i', 'l', 'l', 'i', 'a', 'm']
+ * ```
+ * @param value - A value of generic type `T` or `Nothing`.
+ * @param fn - The map function called with value as the argument if it isn't
+ * `Nothing`.
  */
 function map<T, U>(value: T | Nothing, fn: (value: T) => U | Nothing): U | Nothing {
   return isNothing(value) ? undefined : fn(value);
