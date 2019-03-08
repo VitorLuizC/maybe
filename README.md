@@ -53,7 +53,7 @@ This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 
 ## Documentation
 
-(https://github.com/VitorLuizC/maybe/tree/master/docs)[./docs/README.md].
+[Documentation generated from source files by Typedoc](./docs/README.md).
 
 ## License
 
