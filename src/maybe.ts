@@ -209,7 +209,7 @@ function isMaybe(value: unknown): value is Maybe<any> {
  * Maybe constructor (factory) and helpers.
  * @param value
  */
-function Maybe<T>(value: T | Nothing): Maybe<T> {
+function createMaybe<T>(value: T | Nothing): Maybe<T> {
   return {
     _isMaybe: true,
 
@@ -217,9 +217,13 @@ function Maybe<T>(value: T | Nothing): Maybe<T> {
 
     map: <U>(fn: (value: T) => U | Maybe<U>): Maybe<U> => {
       if (isNothing(value))
-        return Maybe();
+        return createMaybe<U>();
       const _value = fn(value);
-      return isMaybe(_value) ? _value as Maybe<U> : Maybe(_value as U);
+      return (
+        isMaybe(_value)
+          ? _value as Maybe<U>
+          : createMaybe(_value as U)
+      );
     },
 
     match: match.bind(undefined, value) as unknown as <U>(pattern: MaybePattern<T, U>) => U,
@@ -232,7 +236,7 @@ function Maybe<T>(value: T | Nothing): Maybe<T> {
  * Create a Maybe instance for none value.
  */
 function None<T>(): Maybe<T> {
-  return Maybe<T>(undefined);
+  return createMaybe<T>(undefined);
 }
 
 /**
@@ -242,7 +246,7 @@ function None<T>(): Maybe<T> {
 function Some<T>(value: T): Maybe<T> {
   if (isNothing(value))
     throw new Error('Can\'t use none as Maybe.some value.');
-  return Maybe<T>(value);
+  return createMaybe<T>(value);
 }
 
 export {
@@ -252,10 +256,10 @@ export {
   map,
   MaybePattern,
   match,
-  Maybe,
+  createMaybe,
   isMaybe,
   None,
   Some,
 };
 
-export default Maybe;
+export default createMaybe;
