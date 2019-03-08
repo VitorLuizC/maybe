@@ -33,7 +33,7 @@ Generic type of the safe value (other than `Nothing`).
 
 **● _isMaybe**: *`true`*
 
-*Defined in [maybe.ts:120](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L120)*
+*Defined in [maybe.ts:120](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L120)*
 
 ___
 <a id="get"></a>
@@ -42,7 +42,7 @@ ___
 
 **● get**: *`function`*
 
-*Defined in [maybe.ts:134](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L134)*
+*Defined in [maybe.ts:134](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L134)*
 
 Get Maybe wrapped value if it isn't `Nothing` and a placeholder otherwise.
 
@@ -75,7 +75,7 @@ ___
 
 **● map**: *`function`*
 
-*Defined in [maybe.ts:160](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L160)*
+*Defined in [maybe.ts:160](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L160)*
 
 If Maybe wrapped value is `Nothing` it returns a Maybe, without calling fn (the map function). Otherwise, call fn (the map function) with Maybe wrapped value as the argument and return a new Maybe from its result, it also prevents Maybe from wrap anotherMaybe instance (flatten).
 
@@ -121,7 +121,7 @@ ___
 
 **● match**: *`function`*
 
-*Defined in [maybe.ts:184](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L184)*
+*Defined in [maybe.ts:184](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L184)*
 
 Match Maybe wrapped value pattern, call its handler (function) and return the result. It matches pattern `none` if the value is `Nothing` and `some` otherwise.
 
@@ -166,7 +166,7 @@ ___
 
 **● unwrap**: *`function`*
 
-*Defined in [maybe.ts:197](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L197)*
+*Defined in [maybe.ts:197](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L197)*
 
 Return Maybe wrapped value (unwraps it).
 

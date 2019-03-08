@@ -42,7 +42,7 @@ The generic type of value returned by handlers (functions).
 
 **● none**: *`function`*
 
-*Defined in [maybe.ts:69](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L69)*
+*Defined in [maybe.ts:69](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L69)*
 
 Handler (function) for pattern matched if the value is `Nothing`. It doesn't receive the value as the argument.
 
@@ -58,7 +58,7 @@ ___
 
 **● some**: *`function`*
 
-*Defined in [maybe.ts:76](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L76)*
+*Defined in [maybe.ts:76](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L76)*
 
 Handler (function) for pattern matched if the value isn't `Nothing`. In contrast to the none handler, it receives value as the argument.
 
