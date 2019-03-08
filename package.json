@@ -1,6 +1,6 @@
 {
   "name": "@vitorluizc/maybe",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "🌯 The prettiest TypeScript implementation of Maybe monad.",
   "cdn": "dist/maybe.umd.js",
   "types": "dist/maybe.d.ts",

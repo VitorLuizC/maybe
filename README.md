@@ -38,7 +38,7 @@ yarn add @vitorluizc/maybe
 This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 
 ```html
-<script src="https://unpkg.com/@vitorluizc/maybe@^0.0.0"></script>
+<script src="https://unpkg.com/@vitorluizc/maybe@^2.0.0"></script>
 
 <script>
   // jQuery is here just to show the example.

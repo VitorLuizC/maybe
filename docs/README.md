@@ -55,7 +55,7 @@ This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 Documentation
 -------------
 
-([https://github.com/VitorLuizC/maybe/tree/master/docs)\[./docs/README.md\]](https://github.com/VitorLuizC/maybe/tree/master/docs)%5B./docs/README.md%5D).
+[Documentation generated from source files by Typedoc](./docs/README.md).
 
 License
 -------
@@ -94,7 +94,7 @@ Released under [MIT License](./LICENSE).
 
 **Ƭ Nothing**: *`void` \| `null` \| `undefined`*
 
-*Defined in [nothing.ts:12](https://github.com/VitorLuizC/maybe/blob/581133e/src/nothing.ts#L12)*
+*Defined in [nothing.ts:12](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/nothing.ts#L12)*
 
 A union of JavaScript `void`, `null` and `undefined` types.
 
@@ -117,7 +117,7 @@ ___
 
 ▸ **None**<`T`>(): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:266](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L266)*
+*Defined in [maybe.ts:266](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L266)*
 
 A function that create Maybe from `Nothing` (without a value). Its an useful return for undesirable values.
 
@@ -149,7 +149,7 @@ ___
 
 ▸ **Some**<`T`>(value: *`T`*): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:288](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L288)*
+*Defined in [maybe.ts:288](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L288)*
 
 A function that create Maybe from a safe value (not `Nothing`). Throws an error if value is `Nothing`.
 
@@ -187,7 +187,7 @@ ___
 
 ▸ **createMaybe**<`T`>(value: *`T` \| [Nothing](#nothing)*): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:226](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L226)*
+*Defined in [maybe.ts:226](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L226)*
 
 A function that wraps the unsafe value, of generic type `T` or `Nothing`, into Maybe and provide methods to handle it in a _safe flow_.
 
@@ -225,7 +225,7 @@ ___
 
 ▸ **get**<`T`>(value: *`T` \| [Nothing](#nothing)*, placeholder: *`T`*): `T`
 
-*Defined in [maybe.ts:21](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L21)*
+*Defined in [maybe.ts:21](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L21)*
 
 Get the placeholder if the value is `Nothing` and the value itself otherwise.
 
@@ -264,7 +264,7 @@ ___
 
 ▸ **isMaybe**(value: *`unknown`*): `boolean`
 
-*Defined in [maybe.ts:204](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L204)*
+*Defined in [maybe.ts:204](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L204)*
 
 Check if value is a Maybe.
 
@@ -283,7 +283,7 @@ ___
 
 ▸ **isNothing**(value: *`unknown`*): `boolean`
 
-*Defined in [nothing.ts:33](https://github.com/VitorLuizC/maybe/blob/581133e/src/nothing.ts#L33)*
+*Defined in [nothing.ts:33](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/nothing.ts#L33)*
 
 Check if the value is `Nothing`. It returns `true` if the value matches `void`, `null` or `undefined` and `false` otherwise.
 
@@ -317,7 +317,7 @@ ___
 
 ▸ **map**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, fn: *`function`*): `U` \| [Nothing](#nothing)
 
-*Defined in [maybe.ts:47](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L47)*
+*Defined in [maybe.ts:47](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L47)*
 
 Call fn (the map function) with value as the argument and return its result if the value isn't `Nothing`. Otherwise return `Nothing`, without calling fn (the map function).
 
@@ -360,7 +360,7 @@ ___
 
 ▸ **match**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, pattern: *[MaybePattern](interfaces/maybepattern.md)<`T`, `U`>*): `U`
 
-*Defined in [maybe.ts:106](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L106)*
+*Defined in [maybe.ts:106](https://github.com/VitorLuizC/maybe/blob/2e4d614/src/maybe.ts#L106)*
 
 Match the value pattern, call its handler (function) and return its result. It matches pattern `none` if the value is `Nothing` and `some` otherwise.
 
