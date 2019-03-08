@@ -298,6 +298,7 @@ export {
   map,
   MaybePattern,
   match,
+  Maybe,
   createMaybe,
   isMaybe,
   None,
