@@ -1,29 +1,29 @@
-# `@vitorluizc/maybe`
 
-[![Build Status](https://travis-ci.org/VitorLuizC/maybe.svg?branch=master)](https://travis-ci.org/VitorLuizC/maybe)
-[![License](https://badgen.net/github/license/VitorLuizC/maybe)](./LICENSE)
-[![Library minified size](https://badgen.net/bundlephobia/min/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe)
-[![Library minified + gzipped size](https://badgen.net/bundlephobia/minzip/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe)
+`@vitorluizc/maybe`
+===================
 
-## Usage
+[![Build Status](https://travis-ci.org/VitorLuizC/maybe.svg?branch=master)](https://travis-ci.org/VitorLuizC/maybe) [![License](https://badgen.net/github/license/VitorLuizC/maybe)](./LICENSE) [![Library minified size](https://badgen.net/bundlephobia/min/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe) [![Library minified + gzipped size](https://badgen.net/bundlephobia/minzip/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe)
+
+Maybe wraps unsafe values and provide methods to handle them in a _safe flow_.
+
+Usage
+-----
 
 ```ts
-import Maybe from '@vitorluizc/maybe';
+import { createMaybe } from '@vitorluizc/maybe'
 
-// ...
+const repositories =
+  createMaybe(field.value)
+    .map(name => users.find(user => user.name.includes(name)))
+    .map(user => repositories.filter(repository => repository.owner === user.id))
 
-const repositories: Maybe<Repository[]> = (
-  Maybe(field.value)
-    .map((name) => users.find((user) => user.name.includes(name)))
-    .map((user) => repositories.filter((repository) => repository.owner === user.id))
-);
-
-repositories.get([]).forEach((repository) => {
+repositories.get([]).forEach(repository => {
   container.innerHTML += renderRepository(repository);
-});
+})
 ```
 
-## Installation
+Installation
+------------
 
 This library is published in the NPM registry and can be installed using any compatible package manager.
 
@@ -35,6 +35,7 @@ yarn add @vitorluizc/maybe
 ```
 
 ### Installation from CDN
+
 This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 
 ```html
@@ -43,145 +44,363 @@ This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 <script>
   // jQuery is here just to show the example.
 
-  $('#field-name').on('change', (event) => {
-    Maybe(event.target.value)
-      .map((name) => users.filterByName(name))
-      .map((users) => $('#template-users').render(users));
+  $("#field-name").on("change", event => {
+    Maybe.createMaybe(event.target.value)
+      .map(name => users.filterByName(name))
+      .map(users => $("#template-users").render(users));
   });
 </script>
 ```
 
-## API
+Documentation
+-------------
 
-#### `Maybe`
+([https://github.com/VitorLuizC/maybe/tree/master/docs)\[./docs/README.md\]](https://github.com/VitorLuizC/maybe/tree/master/docs)%5B./docs/README.md%5D).
 
-Maybe is a factory function that receives a value, generic type `T` or `Nothing`, and returns an object of type `Maybe<T>`.
-
-```ts
-Maybe(12);
-//=> Maybe<number>
-
-Maybe<string>();
-//=> Maybe<string>
-```
-
-#### `Some`
-
-A factory function
-
-```ts
-Maybe(12);
-//=> Maybe<number>
-
-Maybe<string>();
-//=> Maybe<string>
-```
-
-#### `None`
-
-Maybe is a factory function that receives a value, generic type `T` or `Nothing`, and returns an object of type `Maybe<T>`.
-
-```ts
-Maybe(12);
-//=> Maybe<number>
-
-Maybe<string>();
-//=> Maybe<string>
-```
-
-#### `Maybe<T>`
-
-`Maybe<T>` is a type to define Maybe object instances.
-
-  ```ts
-  // ...
-
-  const name: Maybe<string> = (
-    Maybe(field.value)
-      .map((name) => capitalize(name))
-  );
-
-  console.log('Name is ' + name.get('Unknown'));
-  ```
-
-  - **`.get(placeholder)`** receives a placeholder and returns the value or the placeholder if it is `None`.
-
-    ```ts
-    // ...
-
-    Maybe<string>('Naruto Uzumaki').get('Unknown');
-    //=> 'Naruto Uzumaki'
-
-    Maybe<string>(null).get('Unknown');
-    //=> 'Unknown'
-    ```
-
-  - **`.map(fn)`** receives mapper function as argument and returns a new Maybe (an empty one if the value is `None`).
-
-    ```ts
-    // ...
-
-    Maybe<number>(100).map((price) => '$' + price.toFixed(2));
-    //=> Maybe<string>
-
-    Maybe<number>().map((price) => '$' + price.toFixed(2));
-    //=> Maybe<string>
-    ```
-
-    > The return of mapper function can be a `Maybe` or another value that will be encapsulated in `Maybe`.
-    > ```ts
-    >  Maybe<number>(-19).map((price) => Maybe('$' + price.toFixed(2)));
-    >  //=> Maybe<string>
-    > ```
-
-  - **`.then(fn)`** receives a function as argument and executes it if value is not `None`.
-
-    > Use **side-effects** with this function.
-
-    ```ts
-    // ...
-
-    Maybe<number>(field.value).then((name) => console.log(name));
-    //=> undefined
-    ```
-
-- **`Maybe.isNone`** is a function that checks if value is `None`.
-
-  ```ts
-  Maybe.isNone(null);
-  //=> true
-
-  Maybe.isNone(undefined);
-  //=> true
-  ```
-
-- **`Maybe.isMaybe`** is a function that checks if value is a `Maybe<any>`.
-
-  > It is used internally, but I think it might be useful.
-
-  ```ts
-  Maybe.isMaybe(Maybe<number>());
-  //=> true
-  ```
-
-- **`None`** represents the absence of value and is a combination of `void`, `null` and `undefined` types.
-
-  ```ts
-  let valueA: None;
-  let valueC: None = null;
-  let valueB: None = undefined;
-  let valueD: None = ((): void => {})();
-  ```
-
-  > _Falsy_ values are not `None`.
-  >
-  > ```ts
-  >  const empty: None = ''; // This is a TypeError.
-  >
-  >  Maybe.isNone(0) || Maybe.isNone('') || Maybe.isNone(NaN) || Maybe.isNone(false)
-  >  //=> false
-  > ```
-
-## License
+License
+-------
 
 Released under [MIT License](./LICENSE).
+
+## Index
+
+### Interfaces
+
+* [Maybe](interfaces/maybe.md)
+* [MaybePattern](interfaces/maybepattern.md)
+
+### Type aliases
+
+* [Nothing](#nothing)
+
+### Functions
+
+* [None](#none)
+* [Some](#some)
+* [createMaybe](#createmaybe)
+* [get](#get)
+* [isMaybe](#ismaybe)
+* [isNothing](#isnothing)
+* [map](#map)
+* [match](#match)
+
+---
+
+## Type aliases
+
+<a id="nothing"></a>
+
+###  Nothing
+
+**Ƭ Nothing**: *`void` \| `null` \| `undefined`*
+
+*Defined in [nothing.ts:12](https://github.com/VitorLuizC/maybe/blob/581133e/src/nothing.ts#L12)*
+
+A union of JavaScript `void`, `null` and `undefined` types.
+
+*__example__*:
+ ```ts
+let value: Nothing;
+
+value = null;
+value = undefined;
+value = ((): void => {})();
+```
+
+___
+
+## Functions
+
+<a id="none"></a>
+
+###  None
+
+▸ **None**<`T`>(): [Maybe](interfaces/maybe.md)<`T`>
+
+*Defined in [maybe.ts:266](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L266)*
+
+A function that create Maybe from `Nothing` (without a value). Its an useful return for undesirable values.
+
+*__example__*:
+ ```ts
+None<string>();
+//=> Maybe<string>
+
+Number.isNaN(value) ? None<number>() : Some<number>(value);
+//=> Maybe<number>
+
+const req = () => request('/user').then(Some).catch(None);
+await req();
+//=> Maybe<User>
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+**Returns:** [Maybe](interfaces/maybe.md)<`T`>
+
+___
+<a id="some"></a>
+
+###  Some
+
+▸ **Some**<`T`>(value: *`T`*): [Maybe](interfaces/maybe.md)<`T`>
+
+*Defined in [maybe.ts:288](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L288)*
+
+A function that create Maybe from a safe value (not `Nothing`). Throws an error if value is `Nothing`.
+
+*__example__*:
+ ```ts
+Some('William');
+//=> Maybe<string>
+
+Number.isNaN(value) ? None<number>() : Some<number>(value);
+//=> Maybe<number>
+
+const req = () => request('/user').then(Some).catch(None);
+await req();
+//=> Maybe<User>
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `T` |  A safe value of generic type \`T\`. |
+
+**Returns:** [Maybe](interfaces/maybe.md)<`T`>
+
+___
+<a id="createmaybe"></a>
+
+###  createMaybe
+
+▸ **createMaybe**<`T`>(value: *`T` \| [Nothing](#nothing)*): [Maybe](interfaces/maybe.md)<`T`>
+
+*Defined in [maybe.ts:226](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L226)*
+
+A function that wraps the unsafe value, of generic type `T` or `Nothing`, into Maybe and provide methods to handle it in a _safe flow_.
+
+*__example__*:
+ ```ts
+createMaybe<string>(element.value);
+//=> Maybe<string>
+
+createMaybe(response.data);
+//=> Maybe<{ users: string[] }>
+
+const answer = createMaybe<boolean>(undefined);
+answer.get(false);
+//=> false
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `T` \| [Nothing](#nothing) |  An unsafe value of generic type \`T\` or \`Nothing\`. |
+
+**Returns:** [Maybe](interfaces/maybe.md)<`T`>
+
+___
+<a id="get"></a>
+
+###  get
+
+▸ **get**<`T`>(value: *`T` \| [Nothing](#nothing)*, placeholder: *`T`*): `T`
+
+*Defined in [maybe.ts:21](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L21)*
+
+Get the placeholder if the value is `Nothing` and the value itself otherwise.
+
+*__example__*:
+ ```ts
+let name: string \| Nothing;
+
+get(name, 'Unknown');
+//=> 'Unknown'
+
+name = 'Will';
+
+get(name, 'Unknown');
+//=> 'Will'
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `T` \| [Nothing](#nothing) |  An unsafe value of generic type \`T\` or \`Nothing\`. |
+| placeholder | `T` |  Placeholder of type \`T\` returned if value is \`Nothing\`. |
+
+**Returns:** `T`
+
+___
+<a id="ismaybe"></a>
+
+###  isMaybe
+
+▸ **isMaybe**(value: *`unknown`*): `boolean`
+
+*Defined in [maybe.ts:204](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L204)*
+
+Check if value is a Maybe.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `unknown` |  Any value compared to Maybe. |
+
+**Returns:** `boolean`
+
+___
+<a id="isnothing"></a>
+
+###  isNothing
+
+▸ **isNothing**(value: *`unknown`*): `boolean`
+
+*Defined in [nothing.ts:33](https://github.com/VitorLuizC/maybe/blob/581133e/src/nothing.ts#L33)*
+
+Check if the value is `Nothing`. It returns `true` if the value matches `void`, `null` or `undefined` and `false` otherwise.
+
+*__example__*:
+ ```ts
+isNothing();
+//=> true
+
+isNothing(null);
+//=> true
+
+isNothing(undefined);
+//=> true
+
+isNothing(0);
+//=> false
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `unknown` |  A value to be compared to \`Nothing\`. |
+
+**Returns:** `boolean`
+
+___
+<a id="map"></a>
+
+###  map
+
+▸ **map**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, fn: *`function`*): `U` \| [Nothing](#nothing)
+
+*Defined in [maybe.ts:47](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L47)*
+
+Call fn (the map function) with value as the argument and return its result if the value isn't `Nothing`. Otherwise return `Nothing`, without calling fn (the map function).
+
+*__example__*:
+ ```ts
+let name: string \| Nothing;
+
+map(name, (name) => name.split(''));
+//=> undefined
+
+name = 'William';
+
+map(name, (name) => name.split(''));
+//=> ['W', 'i', 'l', 'l', 'i', 'a', 'm']
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+#### U 
+
+The generic type of value returned by fn (the map function).
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `T` \| [Nothing](#nothing) |  An unsafe value of generic type \`T\` or \`Nothing\`. |
+| fn | `function` |  The map function called with value as the argument if it isn't \`Nothing\`. |
+
+**Returns:** `U` \| [Nothing](#nothing)
+
+___
+<a id="match"></a>
+
+###  match
+
+▸ **match**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, pattern: *[MaybePattern](interfaces/maybepattern.md)<`T`, `U`>*): `U`
+
+*Defined in [maybe.ts:106](https://github.com/VitorLuizC/maybe/blob/581133e/src/maybe.ts#L106)*
+
+Match the value pattern, call its handler (function) and return its result. It matches pattern `none` if the value is `Nothing` and `some` otherwise.
+
+*__example__*:
+ ```ts
+let name: string \| Nothing;
+
+match(name, {
+  none: () => [],
+  some: (name) => name.split(''),
+});
+//=> []
+
+name = 'Max';
+
+match(name, {
+  none: () => [],
+  some: (name) => name.split(''),
+});
+//=> ['M', 'a', 'x']
+```
+
+**Type parameters:**
+
+#### T 
+
+Generic type of the safe value (other than `Nothing`).
+
+#### U 
+
+The generic type of value returned by handlers (functions) of the patterns.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | `T` \| [Nothing](#nothing) |  An unsafe value of generic type \`T\` or \`Nothing\`. |
+| pattern | [MaybePattern](interfaces/maybepattern.md)<`T`, `U`> |  A MaybePattern implementation for the value. |
+
+**Returns:** `U`
+
+___
+
