@@ -14,9 +14,9 @@ import { Nothing, isNothing } from './nothing';
  * get(name, 'Unknown');
  * //=> 'Will'
  * ```
- * @param value - A value of generic type `T` or `Nothing`.
+ * @param value - An unsafe value of generic type `T` or `Nothing`.
  * @param placeholder - Placeholder of type `T` returned if value is `Nothing`.
- * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  */
 function get<T>(value: T | Nothing, placeholder: T): T {
   return isNothing(value) ? placeholder : value;
@@ -38,10 +38,10 @@ function get<T>(value: T | Nothing, placeholder: T): T {
  * map(name, (name) => name.split(''));
  * //=> ['W', 'i', 'l', 'l', 'i', 'a', 'm']
  * ```
- * @param value - A value of generic type `T` or `Nothing`.
+ * @param value - An unsafe value of generic type `T` or `Nothing`.
  * @param fn - The map function called with value as the argument if it isn't
  * `Nothing`.
- * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  * @typeparam U - The generic type of value returned by fn (the map function).
  */
 function map<T, U>(value: T | Nothing, fn: (value: T) => U | Nothing): U | Nothing {
@@ -58,7 +58,7 @@ function map<T, U>(value: T | Nothing, fn: (value: T) => U | Nothing): U | Nothi
  *   some: (name) => name.split(''),
  * };
  * ```
- * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  * @typeparam U - The generic type of value returned by handlers (functions).
  */
 interface MaybePattern<T, U> {
@@ -97,9 +97,9 @@ interface MaybePattern<T, U> {
  * });
  * //=> ['M', 'a', 'x']
  * ```
- * @param value - A value of generic type `T` or `Nothing`.
+ * @param value - An unsafe value of generic type `T` or `Nothing`.
  * @param pattern - A MaybePattern implementation for the value.
- * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  * @typeparam U - The generic type of value returned by handlers (functions) of
  * the patterns.
  */
@@ -110,7 +110,7 @@ function match<T, U>(value: T | Nothing, pattern: MaybePattern<T, U>): U {
 /**
  * Interface of Maybe instances, objects that wraps unsafe values and provide
  * methods to handle it in a _safe flow_.
- * @typeparam T - The generic type of value that is not `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  */
 interface Maybe<T> {
   /**
@@ -206,8 +206,22 @@ function isMaybe(value: unknown): value is Maybe<any> {
 }
 
 /**
- * Maybe constructor (factory) and helpers.
- * @param value
+ * A function that wraps the unsafe value, of generic type `T` or `Nothing`,
+ * into Maybe and provide methods to handle it in a _safe flow_.
+ * @example
+ * ```ts
+ * createMaybe<string>(element.value);
+ * //=> Maybe<string>
+ *
+ * createMaybe(response.data);
+ * //=> Maybe<{ users: string[] }>
+ *
+ * const answer = createMaybe<boolean>(undefined);
+ * answer.get(false);
+ * //=> false
+ * ```
+ * @param value - An unsafe value of generic type `T` or `Nothing`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  */
 function createMaybe<T>(value: T | Nothing): Maybe<T> {
   return {
@@ -233,15 +247,43 @@ function createMaybe<T>(value: T | Nothing): Maybe<T> {
 }
 
 /**
- * Create a Maybe instance for none value.
+ * A function that create Maybe<U> from `Nothing` (without a value). Its an
+ * useful return for undesirable values.
+ * @example
+ * ```ts
+ * None<string>();
+ * //=> Maybe<string>
+ *
+ * Number.isNaN(value) ? None<number>() : Some<number>(value);
+ * //=> Maybe<number>
+ *
+ * const req = () => request('/user').then(Some).catch(None);
+ * await req();
+ * //=> Maybe<User>
+ * ```
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  */
 function None<T>(): Maybe<T> {
   return createMaybe<T>(undefined);
 }
 
 /**
- * Create a Maybe instance for some value (non-none), throws Error otherwise.
- * @param value - A non-none value.
+ * A function that create Maybe<U> from a safe value (not `Nothing`). Throws
+ * an error if value is `Nothing`.
+ * @example
+ * ```ts
+ * Some('William');
+ * //=> Maybe<string>
+ *
+ * Number.isNaN(value) ? None<number>() : Some<number>(value);
+ * //=> Maybe<number>
+ *
+ * const req = () => request('/user').then(Some).catch(None);
+ * await req();
+ * //=> Maybe<User>
+ * ```
+ * @param value - A safe value of generic type `T`.
+ * @typeparam T - Generic type of the safe value (other than `Nothing`).
  */
 function Some<T>(value: T): Maybe<T> {
   if (isNothing(value))
