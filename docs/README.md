@@ -94,18 +94,7 @@ Released under [MIT License](./LICENSE).
 
 **Ƭ Nothing**: *`void` \| `null` \| `undefined`*
 
-*Defined in [nothing.ts:12](https://github.com/VitorLuizC/maybe/blob/87f4245/src/nothing.ts#L12)*
-
-A union of JavaScript `void`, `null` and `undefined` types.
-
-*__example__*:
- ```ts
-let value: Nothing;
-
-value = null;
-value = undefined;
-value = ((): void => {})();
-```
+*Defined in [nothing.ts:12](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/nothing.ts#L12)*
 
 ___
 
@@ -117,28 +106,11 @@ ___
 
 ▸ **None**<`T`>(): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:266](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L266)*
-
-A function that create Maybe from `Nothing` (without a value). Its an useful return for undesirable values.
-
-*__example__*:
- ```ts
-None<string>();
-//=> Maybe<string>
-
-Number.isNaN(value) ? None<number>() : Some<number>(value);
-//=> Maybe<number>
-
-const req = () => request('/user').then(Some).catch(None);
-await req();
-//=> Maybe<User>
-```
+*Defined in [maybe.ts:266](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L266)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
 
 **Returns:** [Maybe](interfaces/maybe.md)<`T`>
 
@@ -149,29 +121,11 @@ ___
 
 ▸ **Some**<`T`>(value: *`T`*): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:288](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L288)*
-
-A function that create Maybe from a safe value (not `Nothing`). Throws an error if value is `Nothing`.
-
-*__example__*:
- ```ts
-Some('William');
-//=> Maybe<string>
-
-Number.isNaN(value) ? None<number>() : Some<number>(value);
-//=> Maybe<number>
-
-const req = () => request('/user').then(Some).catch(None);
-await req();
-//=> Maybe<User>
-```
+*Defined in [maybe.ts:288](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L288)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
-
 **Parameters:**
 
 | Name | Type | Description |
@@ -187,29 +141,11 @@ ___
 
 ▸ **createMaybe**<`T`>(value: *`T` \| [Nothing](#nothing)*): [Maybe](interfaces/maybe.md)<`T`>
 
-*Defined in [maybe.ts:226](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L226)*
-
-A function that wraps the unsafe value, of generic type `T` or `Nothing`, into Maybe and provide methods to handle it in a _safe flow_.
-
-*__example__*:
- ```ts
-createMaybe<string>(element.value);
-//=> Maybe<string>
-
-createMaybe(response.data);
-//=> Maybe<{ users: string[] }>
-
-const answer = createMaybe<boolean>(undefined);
-answer.get(false);
-//=> false
-```
+*Defined in [maybe.ts:226](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L226)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
-
 **Parameters:**
 
 | Name | Type | Description |
@@ -225,29 +161,11 @@ ___
 
 ▸ **get**<`T`>(value: *`T` \| [Nothing](#nothing)*, placeholder: *`T`*): `T`
 
-*Defined in [maybe.ts:21](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L21)*
-
-Get the placeholder if the value is `Nothing` and the value itself otherwise.
-
-*__example__*:
- ```ts
-let name: string \| Nothing;
-
-get(name, 'Unknown');
-//=> 'Unknown'
-
-name = 'Will';
-
-get(name, 'Unknown');
-//=> 'Will'
-```
+*Defined in [maybe.ts:21](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L21)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
-
 **Parameters:**
 
 | Name | Type | Description |
@@ -264,9 +182,7 @@ ___
 
 ▸ **isMaybe**(value: *`unknown`*): `boolean`
 
-*Defined in [maybe.ts:204](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L204)*
-
-Check if value is a Maybe.
+*Defined in [maybe.ts:204](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L204)*
 
 **Parameters:**
 
@@ -283,24 +199,7 @@ ___
 
 ▸ **isNothing**(value: *`unknown`*): `boolean`
 
-*Defined in [nothing.ts:33](https://github.com/VitorLuizC/maybe/blob/87f4245/src/nothing.ts#L33)*
-
-Check if the value is `Nothing`. It returns `true` if the value matches `void`, `null` or `undefined` and `false` otherwise.
-
-*__example__*:
- ```ts
-isNothing();
-//=> true
-
-isNothing(null);
-//=> true
-
-isNothing(undefined);
-//=> true
-
-isNothing(0);
-//=> false
-```
+*Defined in [nothing.ts:33](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/nothing.ts#L33)*
 
 **Parameters:**
 
@@ -317,33 +216,12 @@ ___
 
 ▸ **map**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, fn: *`function`*): `U` \| [Nothing](#nothing)
 
-*Defined in [maybe.ts:47](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L47)*
-
-Call fn (the map function) with value as the argument and return its result if the value isn't `Nothing`. Otherwise return `Nothing`, without calling fn (the map function).
-
-*__example__*:
- ```ts
-let name: string \| Nothing;
-
-map(name, (name) => name.split(''));
-//=> undefined
-
-name = 'William';
-
-map(name, (name) => name.split(''));
-//=> ['W', 'i', 'l', 'l', 'i', 'a', 'm']
-```
+*Defined in [maybe.ts:47](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L47)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
-
 #### U 
-
-The generic type of value returned by fn (the map function).
-
 **Parameters:**
 
 | Name | Type | Description |
@@ -360,39 +238,12 @@ ___
 
 ▸ **match**<`T`,`U`>(value: *`T` \| [Nothing](#nothing)*, pattern: *[MaybePattern](interfaces/maybepattern.md)<`T`, `U`>*): `U`
 
-*Defined in [maybe.ts:106](https://github.com/VitorLuizC/maybe/blob/87f4245/src/maybe.ts#L106)*
-
-Match the value pattern, call its handler (function) and return its result. It matches pattern `none` if the value is `Nothing` and `some` otherwise.
-
-*__example__*:
- ```ts
-let name: string \| Nothing;
-
-match(name, {
-  none: () => [],
-  some: (name) => name.split(''),
-});
-//=> []
-
-name = 'Max';
-
-match(name, {
-  none: () => [],
-  some: (name) => name.split(''),
-});
-//=> ['M', 'a', 'x']
-```
+*Defined in [maybe.ts:106](https://github.com/VitorLuizC/maybe/blob/4e94bc2/src/maybe.ts#L106)*
 
 **Type parameters:**
 
 #### T 
-
-Generic type of the safe value (other than `Nothing`).
-
 #### U 
-
-The generic type of value returned by handlers (functions) of the patterns.
-
 **Parameters:**
 
 | Name | Type | Description |

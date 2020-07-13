@@ -9,12 +9,14 @@
   "module": "dist/maybe.mjs",
   "jsdelivr": "dist/maybe.umd.js",
   "umd:main": "dist/maybe.umd.js",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "docs": "typedoc",
     "test": "ava",
     "build": "bili",
-    "prepare": "yarn docs && yarn build && yarn test"
+    "prepare": "pnpm run docs && pnpm run build && pnpm run test"
   },
   "repository": {
     "type": "git",
@@ -56,14 +58,23 @@
     "typescript": "^3.3.3333"
   },
   "ava": {
-    "require": ["ts-node/register"],
-    "extensions": ["ts"],
+    "require": [
+      "ts-node/register"
+    ],
+    "extensions": [
+      "ts"
+    ],
     "compileEnhancements": false
   },
   "bili": {
     "input": "src/maybe.ts",
     "output": {
-      "format": ["es", "cjs", "umd", "umd-min"],
+      "format": [
+        "es",
+        "cjs",
+        "umd",
+        "umd-min"
+      ],
       "moduleName": "Maybe"
     },
     "plugins": {
