@@ -1,6 +1,0 @@
-{
-  "out": "./docs",
-  "mode": "file",
-  "theme": "markdown",
-  "module": "es2015"
-}

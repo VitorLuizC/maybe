@@ -10,16 +10,17 @@ Maybe wraps unsafe values and provide methods to handle them in a _safe flow_.
 ## Usage
 
 ```ts
-import { createMaybe } from '@vitorluizc/maybe'
+import { createMaybe } from '@vitorluizc/maybe';
 
-const repositories =
-  createMaybe(field.value)
-    .map(name => users.find(user => user.name.includes(name)))
-    .map(user => repositories.filter(repository => repository.owner === user.id))
+const repositories = createMaybe(field.value)
+  .map((name) => users.find((user) => user.name.includes(name)))
+  .map((user) =>
+    repositories.filter((repository) => repository.owner === user.id),
+  );
 
-repositories.get([]).forEach(repository => {
+repositories.get([]).forEach((repository) => {
   container.innerHTML += renderRepository(repository);
-})
+});
 ```
 
 ## Installation
@@ -43,17 +44,13 @@ This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
 <script>
   // jQuery is here just to show the example.
 
-  $("#field-name").on("change", event => {
+  $('#field-name').on('change', (event) => {
     Maybe.createMaybe(event.target.value)
-      .map(name => users.filterByName(name))
-      .map(users => $("#template-users").render(users));
+      .map((name) => users.filterByName(name))
+      .map((users) => $('#template-users').render(users));
   });
 </script>
 ```
-
-## Documentation
-
-[Documentation generated from source files by Typedoc](./docs/README.md).
 
 ## License
 
