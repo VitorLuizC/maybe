@@ -1,53 +1,35 @@
-# `@vitorluizc/maybe`
+# `@bitty/maybe`
 
-[![License](https://badgen.net/github/license/VitorLuizC/maybe)](./LICENSE)
-[![Library minified size](https://badgen.net/bundlephobia/min/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe)
-[![Library minified + gzipped size](https://badgen.net/bundlephobia/minzip/@vitorluizc/maybe)](https://bundlephobia.com/result?p=@vitorluizc/maybe)
-
-Maybe wraps unsafe values and provide methods to handle them in a _safe flow_.
-
-## Usage
-
-```ts
-import { createMaybe } from '@vitorluizc/maybe';
-
-const repositories = createMaybe(field.value)
-  .map((name) => users.find((user) => user.name.includes(name)))
-  .map((user) =>
-    repositories.filter((repository) => repository.owner === user.id),
-  );
-
-repositories.get([]).forEach((repository) => {
-  container.innerHTML += renderRepository(repository);
-});
-```
+[![Library minified size](https://badgen.net/bundlephobia/min/@bitty/maybe)](https://bundlephobia.com/result?p=@bitty/maybe)
+[![Library minified + gzipped size](https://badgen.net/bundlephobia/minzip/@bitty/maybe)](https://bundlephobia.com/result?p=@bitty/maybe)
 
 ## Installation
 
 This library is published in the NPM registry and can be installed using any compatible package manager.
 
 ```sh
-npm install @vitorluizc/maybe --save
+npm install @bitty/maybe --save
 
 # For Yarn, use the command below.
-yarn add @vitorluizc/maybe
+yarn add @bitty/maybe
 ```
 
 ### Installation from CDN
 
-This module has an UMD bundle available through JSDelivr and Unpkg CDNs.
+This module has a UMD bundle available through JSDelivr and Unpkg CDNs.
 
 ```html
-<script src="https://unpkg.com/@vitorluizc/maybe@^2.0.0"></script>
+<!-- For UNPKG use the code below. -->
+<script src="https://unpkg.com/@bitty/maybe"></script>
+
+<!-- For JSDelivr use the code below. -->
+<script src="https://cdn.jsdelivr.net/npm/@bitty/maybe"></script>
 
 <script>
-  // jQuery is here just to show the example.
-
-  $('#field-name').on('change', (event) => {
-    Maybe.createMaybe(event.target.value)
-      .map((name) => users.filterByName(name))
-      .map((users) => $('#template-users').render(users));
-  });
+  // UMD module is exposed through the "Maybe" global object.
+  Maybe.fromFalsy(document.querySelector('input#id'))
+    .chain((el) => Maybe.fromFalsy(el.value?.trim()))
+    .map(console.log);
 </script>
 ```
 
