@@ -13,7 +13,9 @@
     "dist/"
   ],
   "scripts": {
-    "build": "bili",
+    "build": "pnpm run build:transpile && pnpm run build:bundle",
+    "build:transpile": "tsc --project ./tsconfig.build.json",
+    "build:bundle": "rollup --config rollup.config.js",
     "prepare": "pnpm run build"
   },
   "repository": {
@@ -47,27 +49,10 @@
   },
   "homepage": "https://github.com/VitorLuizC/maybe#readme",
   "devDependencies": {
-    "bili": "^4.4.0",
-    "rollup-plugin-typescript2": "^0.19.3",
-    "typescript": "^3.3.3333"
-  },
-  "bili": {
-    "input": "src/main.ts",
-    "output": {
-      "format": [
-        "es",
-        "cjs",
-        "umd",
-        "umd-min"
-      ],
-      "moduleName": "Maybe"
-    },
-    "plugins": {
-      "typescript2": {
-        "clean": true,
-        "useTsconfigDeclarationDir": true
-      }
-    }
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "rollup": "^2.21.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "typescript": "^3.9.6"
   },
   "dependencies": {
     "@bitty/falsy": "workspace:*",
