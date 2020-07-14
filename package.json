@@ -6,7 +6,7 @@
   "types": "dist/maybe.d.ts",
   "main": "dist/maybe.js",
   "unpkg": "dist/maybe.umd.js",
-  "module": "dist/maybe.mjs",
+  "module": "dist/maybe.esm.js",
   "jsdelivr": "dist/maybe.umd.js",
   "umd:main": "dist/maybe.umd.js",
   "files": [
@@ -64,7 +64,7 @@
     "compileEnhancements": false
   },
   "bili": {
-    "input": "src/maybe.ts",
+    "input": "src/main.ts",
     "output": {
       "format": [
         "es",
@@ -80,5 +80,10 @@
         "useTsconfigDeclarationDir": true
       }
     }
+  },
+  "dependencies": {
+    "@bitty/falsy": "workspace:*",
+    "@bitty/nullish": "workspace:*",
+    "@bitty/predicate": "workspace:*"
   }
 }
