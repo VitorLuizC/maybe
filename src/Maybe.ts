@@ -1,7 +1,7 @@
 import type None from './None.js';
 import type Some from './Some.js';
 
-type Maybe<T> = None | Some<T>;
+type Maybe<T> = None<T> | Some<T>;
 
 export type MaybePattern<T, T2> = {
   none: () => T2;
@@ -17,7 +17,7 @@ export interface MaybeMethods<T> {
 
   chain<T2>(fn: (value: T) => Maybe<T2>): Maybe<T2>;
 
-  isNone(): this is None;
+  isNone(): this is None<unknown>;
 
   isSome(): this is Some<unknown>;
 

@@ -1,10 +1,10 @@
 import type { MaybeMethods } from './Maybe.js';
 
-interface None extends MaybeMethods<unknown> {
+interface None<T> extends MaybeMethods<T> {
   _kind: 'None';
 }
 
-const None: None = {
+const None: None<any> = {
   _kind: 'None',
   alt: (fn) => fn(),
   map: () => None,
