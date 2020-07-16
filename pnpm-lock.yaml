@@ -276,9 +276,9 @@ packages:
     resolution:
       integrity: sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
 specifiers:
-  '@bitty/falsy': 'workspace:^0.0.0'
-  '@bitty/nullish': 'workspace:^0.0.3'
-  '@bitty/predicate': 'workspace:^0.0.0'
+  '@bitty/falsy': 'workspace:*'
+  '@bitty/nullish': 'workspace:*'
+  '@bitty/predicate': 'workspace:*'
   '@rollup/plugin-node-resolve': ^8.4.0
   rollup: ^2.21.0
   rollup-plugin-terser: ^6.1.0
