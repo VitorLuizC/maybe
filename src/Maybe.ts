@@ -9,6 +9,8 @@ export type MaybePattern<T, T2> = {
 };
 
 export interface MaybeMethods<T> {
+  alt(fn: () => Maybe<T>): Maybe<T>;
+
   map<T2>(fn: (value: T) => T2): Maybe<T2>;
 
   then<T2>(fn: (value: T) => T2 | Maybe<T2>): Maybe<T2>;

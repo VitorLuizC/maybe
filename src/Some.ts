@@ -8,6 +8,7 @@ interface Some<T> extends MaybeMethods<T> {
 function Some<T>(value: T): Some<T> {
   return {
     _kind: 'Some',
+    alt: () => Some(value),
     map: (fn) => Some(fn(value)),
     then: (fn) => {
       const valueOrMaybe = fn(value);

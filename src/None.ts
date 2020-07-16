@@ -6,6 +6,7 @@ interface None extends MaybeMethods<unknown> {
 
 const None: None = {
   _kind: 'None',
+  alt: (fn) => fn(),
   map: () => None,
   then: () => None,
   chain: () => None,
