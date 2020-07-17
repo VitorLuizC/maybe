@@ -6,7 +6,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 8.4.0_rollup@2.21.0
   rollup: 2.21.0
   rollup-plugin-terser: 6.1.0_rollup@2.21.0
-  typescript: 3.9.6
+  typescript: 3.9.7
 lockfileVersion: 5.1
 packages:
   /@babel/code-frame/7.10.4:
@@ -268,13 +268,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
-  /typescript/3.9.6:
+  /typescript/3.9.7:
     dev: true
     engines:
       node: '>=4.2.0'
     hasBin: true
     resolution:
-      integrity: sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
+      integrity: sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 specifiers:
   '@bitty/falsy': 'workspace:*'
   '@bitty/nullish': 'workspace:*'
@@ -282,4 +282,4 @@ specifiers:
   '@rollup/plugin-node-resolve': ^8.4.0
   rollup: ^2.21.0
   rollup-plugin-terser: ^6.1.0
-  typescript: ^3.9.6
+  typescript: ^3.9.7
