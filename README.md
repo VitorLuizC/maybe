@@ -33,6 +33,10 @@ This module has a UMD bundle available through JSDelivr and Unpkg CDNs.
 </script>
 ```
 
+## Examples
+
+- [`getLanguage`](./examples/getLanguage/getLanguage.ts) is a function that resolves language in application. Its a pretty common case and it was implemented in the way I think we should use `Maybe`.
+
 ## License
 
 Released under [MIT License](./LICENSE).
