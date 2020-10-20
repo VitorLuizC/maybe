@@ -1,6 +1,6 @@
 {
   "name": "@bitty/maybe",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Maybe ",
   "cdn": "dist/Maybe.umd.min.js",
   "main": "dist/Maybe.js",
