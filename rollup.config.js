@@ -28,6 +28,10 @@ const options = [
         file: './dist/Maybe.esm.js',
         format: 'esm',
       }),
+      Option({
+        file: './dist/Maybe.mjs',
+        format: 'esm',
+      }),
     ],
   },
   {

@@ -2,13 +2,23 @@
   "name": "@bitty/maybe",
   "version": "0.0.4",
   "description": "Maybe ",
-  "cdn": "dist/Maybe.umd.min.js",
-  "main": "dist/Maybe.js",
-  "types": "types/main.d.ts",
-  "unpkg": "dist/Maybe.umd.min.js",
-  "module": "dist/Maybe.esm.js",
-  "jsdelivr": "dist/Maybe.umd.min.js",
-  "umd:main": "dist/Maybe.umd.js",
+  "cdn": "./dist/Maybe.umd.min.js",
+  "main": "./dist/Maybe.js",
+  "types": "./types/main.d.ts",
+  "unpkg": "./dist/Maybe.umd.min.js",
+  "module": "./dist/Maybe.esm.js",
+  "jsdelivr": "./dist/Maybe.umd.min.js",
+  "umd:main": "./dist/Maybe.umd.js",
+  "exports": {
+    ".": [
+      {
+        "import": "./dist/Maybe.mjs",
+        "require": "./dist/Maybe.js",
+        "default": "./dist/Maybe.js"
+      },
+      "./dist/Maybe.js"
+    ]
+  },
   "files": [
     "dist/",
     "types/"
