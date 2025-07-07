@@ -1,4 +1,5 @@
 import type { MaybeMethods } from './Maybe.js';
+import type Some from './Some.js';
 
 interface None<T> extends MaybeMethods<T> {
   _kind: 'None';
@@ -10,8 +11,8 @@ const None: None<any> = {
   map: () => None,
   then: () => None,
   chain: () => None,
-  isNone: () => true,
-  isSome: () => false,
+  isNone: (): this is None<any> => true,
+  isSome: (): this is Some<any> => false,
   match: ({ none }) => none(),
   fold: (onLeft) => onLeft(),
   getOrElse: (onLeft) => onLeft(),

@@ -1,4 +1,5 @@
 import type { MaybeMethods } from './Maybe';
+import type None from './None';
 import isMaybe from './isMaybe';
 
 interface Some<T> extends MaybeMethods<T> {
@@ -17,8 +18,8 @@ function Some<T>(value: T): Some<T> {
     chain: (fn) => fn(value),
     match: ({ some }) => some(value),
     fold: (_, onSome) => onSome(value),
-    isNone: () => false,
-    isSome: () => true,
+    isNone: (): this is None<any> => false,
+    isSome: (): this is Some<T> => true,
     getOrElse: () => value,
     unwrap: () => value,
   };

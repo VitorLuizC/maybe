@@ -10,14 +10,11 @@
   "jsdelivr": "./dist/Maybe.umd.min.js",
   "umd:main": "./dist/Maybe.umd.js",
   "exports": {
-    ".": [
-      {
-        "import": "./dist/Maybe.mjs",
-        "require": "./dist/Maybe.js",
-        "default": "./dist/Maybe.js"
-      },
-      "./dist/Maybe.js"
-    ]
+    ".": {
+      "types": "./types/Maybe.d.ts",
+      "import": "./dist/Maybe.mjs",
+      "require": "./dist/Maybe.js"
+    }
   },
   "files": [
     "dist/",
@@ -60,10 +57,10 @@
   },
   "homepage": "https://github.com/VitorLuizC/maybe#readme",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.1.3",
-    "rollup": "^2.63.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.5.4"
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.44.2",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@bitty/falsy": "workspace:*",
